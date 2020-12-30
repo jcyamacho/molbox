@@ -2,7 +2,7 @@
 molecular viewer
 
 ## input file
-list of atoms with cordenates, example:
+list of molecules with coordinates, example:
 ```
 O        2.158273000     -0.046252000      0.345142000
 O       -1.045235000      1.918333000      0.019218000
