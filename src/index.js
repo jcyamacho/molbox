@@ -1,5 +1,6 @@
-import React from 'react'
+import React, { Suspense } from 'react'
 import ReactDOM from 'react-dom'
+import { RecoilRoot } from 'recoil'
 import Shell from 'components/shell'
 
 import './index.css'
@@ -7,7 +8,11 @@ import reportWebVitals from './reportWebVitals'
 
 ReactDOM.render(
   <React.StrictMode>
-    <Shell />
+    <RecoilRoot>
+      <Suspense fallback={'Loading...'}>
+        <Shell />
+      </Suspense>
+    </RecoilRoot>
   </React.StrictMode>,
   document.getElementById('root')
 )

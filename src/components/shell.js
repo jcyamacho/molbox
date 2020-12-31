@@ -1,19 +1,24 @@
-import { useState, useCallback } from 'react'
+import { useCallback } from 'react'
+import { useSetRecoilState } from 'recoil'
 import { Upload, Button, Layout } from 'antd'
 import { UploadOutlined } from '@ant-design/icons'
 
 import { readData } from 'api/data'
+import { elements } from 'state'
 
 import Viewer from './viewer'
+import BoxControls from './box-controls'
 
-const { Header, Content } = Layout
+const { Header, Content, Sider } = Layout
 
-export default function Shell () {
-  const [data, setData] = useState([])
+function Shell () {
+  const setData = useSetRecoilState(elements)
+
   const handleUpload = useCallback(file => {
     readData(file).then(setData)
     return false
   }, [])
+
   return (
     <Layout style={{ height: '100%', width: '100%' }}>
       <Header>
@@ -21,9 +26,16 @@ export default function Shell () {
           <Button icon={<UploadOutlined />}>Click to Upload</Button>
         </Upload>
       </Header>
-      <Content>
-        <Viewer items={data}/>
-      </Content>
+      <Layout>
+        <Content>
+          <Viewer />
+        </Content>
+        <Sider>
+          <BoxControls/>
+        </Sider>
+      </Layout>
     </Layout>
   )
 }
+
+export default Shell

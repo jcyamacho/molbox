@@ -11,12 +11,17 @@ const COLORS = {
   Cs: 'purple'
 }
 
-export default function Mol ({ name, x, y, z }) {
+function Mol ({ name, x, y, z, internal = false }) {
   const color = useMemo(() => COLORS[name] ?? 'red', [name])
   return (
     <mesh position={[x, y, z]}>
       <sphereBufferGeometry args={[0.8, 32, 32]} />
-      <meshStandardMaterial color={color} />
+      <meshStandardMaterial
+        color={color}
+        transparent={!internal}
+        opacity={internal ? 1 : 0.1}/>
     </mesh>
   )
 }
+
+export default Mol
