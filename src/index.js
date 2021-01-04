@@ -1,7 +1,7 @@
 import React, { Suspense } from 'react'
 import ReactDOM from 'react-dom'
 import { RecoilRoot } from 'recoil'
-import Shell from 'components/shell'
+import Shell from './components/shell'
 
 import './index.css'
 import reportWebVitals from './reportWebVitals'

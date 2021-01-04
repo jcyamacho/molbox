@@ -11,7 +11,8 @@ const COLORS = {
   Cs: 'purple'
 }
 
-function Mol ({ name, x, y, z, internal = false }) {
+function Mol ({ name, center, internal = false }) {
+  const { x, y, z } = center
   const color = useMemo(() => COLORS[name] ?? 'red', [name])
   return (
     <mesh position={[x, y, z]}>
@@ -19,7 +20,7 @@ function Mol ({ name, x, y, z, internal = false }) {
       <meshStandardMaterial
         color={color}
         transparent={!internal}
-        opacity={internal ? 1 : 0.1}/>
+        opacity={internal ? 1 : 0.05}/>
     </mesh>
   )
 }

@@ -1,13 +1,14 @@
 import { useRecoilValue } from 'recoil'
 import { Canvas } from 'react-three-fiber'
-import { elements, box } from 'state'
+import { elements, boxSize, boxRotation } from 'state'
 
 import CameraControls from './camera-controls'
 import Mol from './mol'
 
-function Box ({ dx, dy, dz }) {
+function Box ({ size, rotation }) {
+  const [dx, dy, dz] = size
   return (
-    <mesh>
+    <mesh rotation={rotation}>
       <boxBufferGeometry args={[dx * 2, dy * 2, dz * 2]} />
       <meshStandardMaterial transparent opacity={0.3}/>
     </mesh>
@@ -16,7 +17,8 @@ function Box ({ dx, dy, dz }) {
 
 function Viewer () {
   const points = useRecoilValue(elements)
-  const [dx, dy, dz] = useRecoilValue(box)
+  const size = useRecoilValue(boxSize)
+  const rotation = useRecoilValue(boxRotation)
 
   return (
     <Canvas style={{ background: 'black' }} camera={{ position: [0, 0, 20] }}>
@@ -24,8 +26,13 @@ function Viewer () {
       <CameraControls />
       <pointLight position={[10, 10, 10]} />
       <pointLight position={[-10, 10, 10]} />
-      {points.map((p) => <Mol key={p.id} {...p}/>)}
-      <Box dx={dx} dy={dy} dz={dz} />
+      {points.map((p) => <Mol
+        key={p.id}
+        name={p.name}
+        center={p.center}
+        internal={p.internal}
+      />)}
+      <Box size={size} rotation={rotation} />
     </Canvas>
   )
 }

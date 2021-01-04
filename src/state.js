@@ -1,9 +1,5 @@
+import * as THREE from 'three'
 import { atom, selector } from 'recoil'
-
-const contains = ([x, y, z], [dx, dy, dz]) =>
-  Math.abs(x) <= dx &&
-  Math.abs(y) <= dy &&
-  Math.abs(z) <= dz
 
 const internalElements = atom({
   key: 'internal-elements',
@@ -23,26 +19,48 @@ export const bounds = selector({
   }
 })
 
-export const box = atom({
-  key: 'box',
+export const boxSize = atom({
+  key: 'box-position',
   default: bounds
+})
+
+export const boxRotation = atom({
+  key: 'box-rotation',
+  default: [0, 0, 0]
 })
 
 export const elements = selector({
   key: 'elements',
   get: ({ get }) => {
-    const size = get(box)
+    const [dx, dy, dz] = get(boxSize)
+    const [rx, ry, rz] = get(boxRotation)
     const items = get(internalElements)
-    return items.map(it => ({
-      ...it,
-      internal: contains([it.x, it.y, it.z], size)
-    }))
+
+    const m = new THREE.Matrix4()
+      .multiply(new THREE.Matrix4().makeRotationX(rx))
+      .multiply(new THREE.Matrix4().makeRotationY(ry))
+      .multiply(new THREE.Matrix4().makeRotationZ(rz))
+      .invert()
+
+    const b = new THREE.Box3(
+      new THREE.Vector3(-dx, -dy, -dz),
+      new THREE.Vector3(dx, dy, dz)
+    )
+
+    return items.map(({ name, x, y, z }) => {
+      const center = new THREE.Vector3(x, y, z)
+      const internal = b.containsPoint(center.clone().applyMatrix4(m))
+      return ({
+        id: `${name}-${x}.${y}.${z}`,
+        name,
+        center,
+        internal
+      })
+    })
   },
   set: ({ set, reset }, value = []) => {
-    set(internalElements, value.map(val => ({
-      ...val,
-      id: JSON.stringify(val)
-    })))
-    reset(box)
+    set(internalElements, value)
+    reset(boxSize)
+    reset(boxRotation)
   }
 })
