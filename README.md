@@ -1,5 +1,7 @@
 # molbox
-molecular viewer
+molecular viewer, [online demo](https://molbox.netlify.app)
+
+![](example/demo.gif)
 
 ## input file
 list of molecules with coordinates, example:
@@ -17,3 +19,7 @@ H        6.012021000      0.680824000      2.698640000
 C        4.117667000      0.391559000      1.682642000
 C       -1.666445000      3.090094000     -0.031559000
 ```
+
+### examples
+- [data-1](example/data-1.txt)
+- [data-2](example/data-2.txt)
