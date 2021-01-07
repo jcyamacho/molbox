@@ -12,7 +12,9 @@ function FileUpload () {
 
   const changeHandler = useCallback(ev => {
     const [file] = ev.target.files
-    readData(file).then(setData)
+    if (file) {
+      readData(file).then(setData)
+    }
   }, [])
 
   const clickHandler = useCallback(() => input.current.click(), [])
