@@ -24,6 +24,7 @@ function Viewer () {
     <Canvas style={{ background: 'black' }} camera={{ position: [0, 0, 20] }}>
       <ambientLight />
       <CameraControls />
+      <axesHelper args={[5]}/>
       <pointLight position={[10, 10, 10]} />
       <pointLight position={[-10, 10, 10]} />
       {points.map((p) => <Mol
