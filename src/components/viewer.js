@@ -1,6 +1,7 @@
 import { useRecoilValue } from 'recoil'
 import { Canvas } from 'react-three-fiber'
 import { elements, boxSize, boxRotation } from 'state'
+import * as THREE from 'three'
 
 import CameraControls from './camera-controls'
 import Mol from './mol'
@@ -10,7 +11,11 @@ function Box ({ size, rotation }) {
   return (
     <mesh rotation={rotation}>
       <boxBufferGeometry args={[dx * 2, dy * 2, dz * 2]} />
-      <meshStandardMaterial transparent opacity={0.3}/>
+      <meshStandardMaterial
+        transparent
+        opacity={0.3}
+        side={THREE.DoubleSide}
+      />
     </mesh>
   )
 }
